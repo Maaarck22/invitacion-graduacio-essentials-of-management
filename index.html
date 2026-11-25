@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Graduación Essentials of Management</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: hoja blanca centrada con esquinas diagonales como el flyer; un diploma que se desenrolla es el momento principal; datos siempre visibles debajo. Un solo look por diseño (identidad del flyer). */
+:root{
+  --navy:#0A2463; --red:#F0120F; --sky:#00A5E8; --ink:#0B1B3F; --muted:#4F5F82; --paper:#FFFFFF; --mist:#EAF3FC; --line:#D5E2F3;
+  --display:'Lexend','Segoe UI',system-ui,sans-serif; --body:'Lexend','Segoe UI',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.5;margin:0;font-size:16px}
+.page{position:relative;overflow:hidden;min-height:100vh;padding-block:56px 40px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.wrap{position:relative;z-index:1;max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:28px;align-items:stretch}
+.corner{position:absolute;width:clamp(90px,28vw,130px);height:auto;pointer-events:none}
+.corner.tl{top:0;left:0}.corner.br{bottom:0;right:0;transform:rotate(180deg)}
+.corner .a{fill:var(--navy)}.corner .b{fill:var(--red)}.corner.br .a{fill:var(--sky)}.corner.br .b{fill:var(--navy)}
+.brand{display:flex;justify-content:center;align-items:center;gap:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.brand i{width:1.5px;height:22px;background:var(--red);display:block}
+.brand b{color:var(--red);font-weight:800}
+.title{text-align:center;display:flex;flex-direction:column;gap:2px}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:0 0 10px}
+h1{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:1;text-wrap:balance}
+h1 .t1{display:block;font-size:clamp(26px,8.4vw,36px);color:var(--sky);letter-spacing:.01em}
+h1 .t1 em{font-style:normal;color:var(--red)}
+h1 .t2{display:block;font-size:clamp(30px,10vw,46px);color:var(--navy);letter-spacing:-.01em;margin-top:4px}
+.sub{margin:14px 0 0;font-size:16px;text-wrap:balance}
+.sub b{font-weight:600;color:var(--navy)}
+.una{margin:0;text-align:center;color:var(--red);font-size:17px;font-weight:400}
+.una b{font-weight:800}
+
+/* diploma */
+.stage{display:flex;flex-direction:column;gap:18px;align-items:center}
+.name{width:100%;display:flex;flex-direction:column;gap:6px}
+.name label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.name input{font:400 17px var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;width:100%}
+.name input:focus-visible{outline:3px solid var(--sky);outline-offset:1px;border-color:var(--sky)}
+.scroll{width:100%;display:flex;flex-direction:column;align-items:center;position:relative}
+.roll{position:relative;z-index:2;width:calc(100% + 14px);height:24px;border-radius:12px;background:linear-gradient(180deg,#2A4A9A 0%,var(--navy) 55%,#061A4A 100%);box-shadow:0 6px 14px rgba(10,36,99,.22)}
+.roll::before,.roll::after{content:"";position:absolute;top:0;bottom:0;width:14px;background:var(--red);border-radius:12px 0 0 12px}
+.roll::before{left:0}.roll::after{right:0;border-radius:0 12px 12px 0}
+.bow{position:absolute;z-index:3;top:3px;left:50%;width:46px;height:30px;transform:translateX(-50%);transition:transform .6s,opacity .5s .2s}
+.bow svg{width:100%;height:100%;display:block}
+.open .bow{opacity:0;transform:translate(-50%,-6px) scale(.6)}
+.sheetwrap{width:calc(100% - 10px);display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows 1.1s cubic-bezier(.2,.8,.2,1),visibility 0s 1.1s}
+.open .sheetwrap{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows 1.1s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.sheetin{min-height:0;overflow:hidden}
+.sheet{position:relative;background:linear-gradient(180deg,#FFFFFF,#F4F8FE);border:1.5px solid var(--line);border-top:0;border-bottom:0;padding:30px 22px 34px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:inset 0 0 0 6px #fff,inset 0 0 0 7px var(--line)}
+.sheet .s1{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.sheet .who{font-weight:800;font-size:clamp(22px,7vw,28px);line-height:1.15;color:var(--navy);overflow-wrap:anywhere;text-wrap:balance}
+.sheet .s2{max-width:30ch;font-size:15px}
+.sheet .s2 b{font-weight:600;color:var(--ink)}
+.rule{width:64px;height:3px;background:linear-gradient(90deg,var(--sky),var(--red));border-radius:2px;margin:4px 0}
+.seal{width:84px;height:84px;margin-top:6px;position:relative;filter:drop-shadow(0 6px 8px rgba(240,18,15,.25))}
+.seal svg{width:100%;height:100%;display:block}
+.seal.hit{animation:slam .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes slam{0%{transform:scale(2.6) rotate(-24deg);opacity:0}55%{opacity:1}100%{transform:scale(1) rotate(-8deg);opacity:1}}
+.go{appearance:none;border:0;cursor:pointer;font:600 14px var(--body);letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--navy);padding:15px 26px;border-radius:999px;min-height:48px;box-shadow:0 8px 18px rgba(10,36,99,.28);transition:transform .15s,background .2s}
+.go:hover{background:var(--red)}.go:active{transform:scale(.97)}
+.go:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+.open .go{background:var(--paper);color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--navy)}
+.open .go:hover{background:var(--mist)}
+
+/* datos */
+.info{display:flex;flex-direction:column;gap:14px;background:var(--mist);border-radius:18px;padding:20px 18px}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:center}
+.ic{width:44px;height:44px;border-radius:50%;background:var(--red);display:grid;place-items:center}
+.ic svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.row small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.row b{display:block;font-weight:600;font-size:17px;line-height:1.3}
+.row b.tbc{font-weight:300;color:var(--muted)}
+.close{text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.close h2{margin:0;font-weight:800;font-size:clamp(30px,10vw,40px);color:var(--navy);line-height:1.1}
+.close p{margin:0;color:var(--muted);font-size:14px;max-width:32ch}
+.count{margin-top:4px;font-size:15px;font-weight:600;color:var(--navy);background:var(--mist);padding:8px 16px;border-radius:999px}
+.count span{color:var(--red);font-weight:800}
+.fx{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.fx i{position:absolute;top:0;left:0;width:9px;height:14px;border-radius:2px;will-change:transform}
+@media (prefers-reduced-motion:reduce){.sheetwrap,.open .sheetwrap{transition:none}.bow{transition:none}.seal.hit{animation:none}}
+</style>
+
+</head>
+<body>
+<main class="page">
+  <svg class="corner tl" viewBox="0 0 100 100" aria-hidden="true"><polygon class="a" points="0,0 58,0 0,58"/><polygon class="b" points="68,0 76,0 0,76 0,68"/></svg>
+  <svg class="corner br" viewBox="0 0 100 100" aria-hidden="true"><polygon class="a" points="0,0 58,0 0,58"/><polygon class="b" points="68,0 76,0 0,76 0,68"/></svg>
+
+  <div class="wrap">
+    <div class="brand"><b>Grupo UNACEM</b><i></i><span>Talent2grow</span></div>
+
+    <header class="title">
+      <p class="kicker">Graduación</p>
+      <h1><span class="t1">Essentials <em>of</em></span><span class="t2">Management</span></h1>
+      <p class="sub">Te invitamos a celebrar el cierre del programa que <b>fortalece nuestro estilo de liderazgo</b>.</p>
+    </header>
+
+    <section class="stage" id="stage" aria-label="Tu diploma">
+      <div class="name">
+        <label for="nombre">Escribe tu nombre</label>
+        <input id="nombre" type="text" maxlength="48" autocomplete="off" placeholder="Nombre y apellido">
+      </div>
+      <div class="scroll" id="scroll">
+        <div class="roll"></div>
+        <div class="bow" aria-hidden="true"><svg viewBox="0 0 46 30"><path d="M23 15 6 3q-4 8 0 15zM23 15 40 3q4 8 0 15z" fill="#F0120F"/><path d="M23 15 14 28h7zM23 15 32 28h-7z" fill="#C50C0A"/><circle cx="23" cy="15" r="5" fill="#F0120F" stroke="#C50C0A" stroke-width="1.5"/></svg></div>
+        <div class="sheetwrap" id="sheet" aria-hidden="true">
+          <div class="sheetin">
+            <div class="sheet">
+              <span class="s1">Reconocimiento a</span>
+              <span class="who" id="who">Líder del Grupo UNACEM</span>
+              <div class="rule"></div>
+              <span class="s2">Por completar el programa <b>Essentials of Management</b>.</span>
+              <span class="s2" style="color:var(--red);font-weight:400"><b style="color:var(--red);font-weight:800">UNA</b> cultura, <b style="color:var(--red);font-weight:800">UNA</b> forma de liderar.</span>
+              <div class="seal" id="seal" aria-hidden="true"><svg viewBox="0 0 84 84"><polygon fill="#F0120F" points="42,2 49,9 59,6 63,16 73,18 73,28 82,34 77,43 82,52 73,57 73,67 63,69 59,79 49,76 42,82 35,76 25,79 21,69 11,67 11,57 2,52 7,43 2,34 11,28 11,18 21,16 25,6 35,9"/><circle cx="42" cy="42" r="26" fill="none" stroke="#fff" stroke-width="2"/><text x="42" y="50" text-anchor="middle" font-family="Lexend,Segoe UI,sans-serif" font-weight="800" font-size="22" fill="#fff">UNA</text></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="roll" id="roll2" style="margin-top:-1px"></div>
+      </div>
+      <button class="go" id="go" type="button" aria-expanded="false" aria-controls="sheet">Desenrollar diploma</button>
+    </section>
+
+    <section class="info" aria-label="Datos de la graduación">
+      <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span><div><small>Fecha</small><b id="fFecha">Por confirmar</b></div></div>
+      <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><div><small>Hora</small><b id="fHora">Por confirmar</b></div></div>
+      <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.7-6.5-11a6.5 6.5 0 0 1 13 0c0 5.3-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><div><small>Lugar</small><b id="fLugar">Por confirmar</b></div></div>
+    </section>
+
+    <footer class="close">
+      <h2>¡Te esperamos!</h2>
+      <p>Gracias por modelar el liderazgo que queremos vivir en el Grupo UNACEM.</p>
+      <div class="count" id="count" hidden></div>
+    </footer>
+  </div>
+  <div class="fx" id="fx" aria-hidden="true"></div>
+</main>
+
+<script>
+/* Edita aquí los datos del evento. fecha en formato AAAA-MM-DD. */
+var CFG = { fecha: '2026-11-27', hora: '11:00 a 15:00', lugar: 'Hotel Eurobuilding' };
+
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // datos del evento
+  if (CFG.hora) { $('fHora').textContent = CFG.hora; $('fHora').classList.remove('tbc'); }
+  if (CFG.lugar) { $('fLugar').textContent = CFG.lugar; }
+  if (CFG.fecha) {
+    var p = CFG.fecha.split('-').map(Number), target = Date.UTC(p[0], p[1]-1, p[2]);
+    var txt = new Date(target).toLocaleDateString('es-EC', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
+    $('fFecha').textContent = txt.charAt(0).toUpperCase() + txt.slice(1);
+    var d = Math.floor(target/86400000) - Math.floor((Date.now() - 5*3600000)/86400000);
+    var c = $('count');
+    if (d > 1) { c.innerHTML = 'Faltan <span>' + d + '</span> días'; c.hidden = false; }
+    else if (d === 1) { c.innerHTML = '<span>Mañana</span> es el gran día'; c.hidden = false; }
+    else if (d === 0) { c.innerHTML = '<span>Hoy</span> es el gran día'; c.hidden = false; }
+  }
+
+  // diploma
+  var scroll = $('scroll'), sheet = $('sheet'), go = $('go'), who = $('who'), seal = $('seal'), input = $('nombre');
+  var open = false, DEFAULT = 'Líder del Grupo UNACEM';
+  function setName(){ who.textContent = input.value.trim() || DEFAULT; }
+  input.addEventListener('input', setName);
+
+  function confeti(){
+    if (reduce) return;
+    var fx = $('fx'), cols = ['#F0120F','#00A5E8','#0A2463','#FFFFFF','#7FD1F5'];
+    var W = innerWidth, H = innerHeight;
+    for (var i = 0; i < 80; i++){
+      var e = document.createElement('i');
+      e.style.background = cols[i % cols.length];
+      if (cols[i % cols.length] === '#FFFFFF') e.style.boxShadow = 'inset 0 0 0 1px #D5E2F3';
+      fx.appendChild(e);
+      var x0 = W/2 + (Math.random()-.5)*80, y0 = H*0.45;
+      var x1 = x0 + (Math.random()-.5)*W*1.1, y1 = y0 - 80 - Math.random()*H*0.35;
+      var x2 = x1 + (Math.random()-.5)*80, y2 = H + 40;
+      var r = (Math.random()-.5)*900;
+      var a = e.animate([
+        {transform:'translate('+x0+'px,'+y0+'px) rotate(0)', opacity:1},
+        {transform:'translate('+x1+'px,'+y1+'px) rotate('+(r/2)+'deg)', opacity:1, offset:.4},
+        {transform:'translate('+x2+'px,'+y2+'px) rotate('+r+'deg)', opacity:.9}
+      ], {duration:1800 + Math.random()*1400, easing:'cubic-bezier(.2,.6,.4,1)', delay:Math.random()*250, fill:'forwards'});
+      a.onfinish = (function(el){ return function(){ el.remove(); }; })(e);
+    }
+  }
+
+  go.addEventListener('click', function(){
+    open = !open;
+    scroll.classList.toggle('open', open);
+    document.getElementById('stage').classList.toggle('open', open);
+    sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
+    go.setAttribute('aria-expanded', open ? 'true' : 'false');
+    go.textContent = open ? 'Enrollar de nuevo' : 'Desenrollar diploma';
+    seal.classList.remove('hit');
+    if (open){
+      setName();
+      setTimeout(function(){
+        void seal.offsetWidth; seal.classList.add('hit'); confeti();
+        if (navigator.vibrate) { try { navigator.vibrate(40); } catch(e){} }
+      }, reduce ? 0 : 750);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
